@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, Home, GitBranch, Palette } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -13,12 +14,23 @@ const mockWorkspaces = [
   'Hyderabad', 'Tikal', 'Albany', 'Asmara', 'Bangui'
 ];
 
-const mockActions = [
-  { id: 'theme', label: 'Toggle Theme (Current: system)', icon: Palette }
-];
-
 export function CommandPalette({ isOpen, onClose, onTaskSelect, onHomeSelect }: CommandPaletteProps) {
   const [search, setSearch] = useState('');
+  const { theme, setTheme } = useTheme();
+  
+  const mockActions = [
+    { 
+      id: 'theme', 
+      label: `Toggle Theme (Current: ${theme || 'system'})`, 
+      icon: Palette,
+      action: () => {
+        const themes = ['light', 'dark', 'system'];
+        const currentIndex = themes.indexOf(theme || 'system');
+        const nextIndex = (currentIndex + 1) % themes.length;
+        setTheme(themes[nextIndex]);
+      }
+    }
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -110,7 +122,7 @@ export function CommandPalette({ isOpen, onClose, onTaskSelect, onHomeSelect }: 
               <button
                 key={action.id}
                 onClick={() => {
-                  // Handle action
+                  action.action();
                   onClose();
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-gray-100"
