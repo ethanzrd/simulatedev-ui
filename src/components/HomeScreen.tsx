@@ -195,24 +195,37 @@ export function HomeScreen({ onTaskStart, onCommandK }: HomeScreenProps) {
                   onClick={() => onTaskStart(issue.id)}
                   className="w-full p-4 bg-card border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left"
                 >
-                  <div className="flex items-start gap-3">
-                    <Circle className="w-4 h-4 text-success mt-1 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-mono text-sm text-gray-600">
-                          cbh123/narrator
-                        </span>
-                        <span className="font-mono text-sm text-gray-400">
-                          #{issue.number}
-                        </span>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3 flex-1">
+                      <Circle className="w-4 h-4 text-success mt-1 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-mono text-sm text-gray-600">
+                            cbh123/narrator
+                          </span>
+                          <span className="font-mono text-sm text-gray-400">
+                            #{issue.number}
+                          </span>
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-900 mb-2">
+                          {issue.title}
+                        </h3>
+                        <p className="text-xs text-gray-500">
+                          {issue.timeAgo}
+                        </p>
                       </div>
-                      <h3 className="text-sm font-medium text-gray-900 mb-2">
-                        {issue.title}
-                      </h3>
-                      <p className="text-xs text-gray-500">
-                        {issue.timeAgo}
-                      </p>
                     </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-gray-500 hover:text-gray-700 ml-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle external link click
+                      }}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </Button>
                   </div>
                 </button>
               ))}
@@ -223,17 +236,37 @@ export function HomeScreen({ onTaskStart, onCommandK }: HomeScreenProps) {
                   onClick={() => onTaskStart(pr.id)}
                   className="w-full bg-card border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors text-left"
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <GitPullRequest className="w-4 h-4 text-gray-500" />
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {pr.title}
-                      </h3>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3 flex-1">
+                      <GitPullRequest className="w-4 h-4 text-gray-500 mt-1 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-medium text-gray-900 mb-2">
+                          {pr.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-xs text-gray-600 mb-2">
+                          <span className="font-mono">{pr.branch}</span>
+                          <span className="flex items-center gap-1">
+                            <FileText className="w-3 h-3" />
+                            {pr.filesChanged} files
+                          </span>
+                          <span className="flex items-center gap-1 text-success">
+                            <Plus className="w-3 h-3" />
+                            {pr.additions}
+                          </span>
+                          <span className="flex items-center gap-1 text-error">
+                            <Minus className="w-3 h-3" />
+                            {pr.deletions}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          {pr.timeAgo}
+                        </p>
+                      </div>
                     </div>
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="text-gray-500 hover:text-gray-700"
+                      className="text-gray-500 hover:text-gray-700 ml-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         // Handle external link click
@@ -241,26 +274,6 @@ export function HomeScreen({ onTaskStart, onCommandK }: HomeScreenProps) {
                     >
                       <ExternalLink className="w-4 h-4" />
                     </Button>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-xs text-gray-600 mb-3">
-                    <span className="font-mono">{pr.branch}</span>
-                    <span className="flex items-center gap-1">
-                      <FileText className="w-3 h-3" />
-                      {pr.filesChanged} files
-                    </span>
-                    <span className="flex items-center gap-1 text-success">
-                      <Plus className="w-3 h-3" />
-                      {pr.additions}
-                    </span>
-                    <span className="flex items-center gap-1 text-error">
-                      <Minus className="w-3 h-3" />
-                      {pr.deletions}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-end">
-                    <span className="text-xs text-gray-500">{pr.timeAgo}</span>
                   </div>
                 </button>
               ))}
